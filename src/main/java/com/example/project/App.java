@@ -1,7 +1,7 @@
 package com.example.project;
 
 /**
- * Created by Miklos barabas on 22/09/2016.
+ * Created by Miklos Barabas on 22/09/2016.
  */
 
 import org.eclipse.jetty.servlets.PushCacheFilter;
@@ -15,10 +15,12 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication // == @Configuration @EnableAutoConfiguration @ComponentScan
 public class App {
 
+    private static final int PORT = 8443;
+
+
     public static void main(String[] args) throws Exception {
         SpringApplication app = new SpringApplication(App.class);
-        //app.setShowBanner(false);
-        TomcatHTTP2.tomcatCustomizer();
+//        TomcatHTTP2.tomcatCustomizer();
         app.run(args);
 
     }
