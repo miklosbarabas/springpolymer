@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
  *     <li>update the SSLContextFactory to select the appropriate TLS cipher for HTTP/2 using {@code HTTP2Cipher.COMPARATOR}
  *     <li>replace the ConnectionFactories configured by Boot by {@link ALPNServerConnectionFactory} and {@link HTTP2ServerConnectionFactory}
  * </ul>
- * @author Brian Clozel
+ * @author Miklos Barabas
  */
 
 @Component
