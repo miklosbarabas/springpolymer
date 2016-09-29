@@ -10,6 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
+
 
 <dom-module id="my-view1">
   <template>
@@ -25,13 +29,48 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="circle">1</div>
       <h1>View One</h1>
       <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
       <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
     </div>
+    <div class="card">
+      <div class="circle">2</div>
+      <h1>View One</h1>
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+    </div>
+    <div class="card">
+      <div class="circle">3</div>
+      <h1>View One</h1>
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+    </div>
+    <div class="card">
+      <div class="circle">4</div>
+      <h1>View One</h1>
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Ut labores minimumassddssdasdas atomorum pro. Laudem tibique ut has.
+      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+    </div>
+
+
+    <button on-tap="handleTapForToast">open</button>
+
+
   </template>
 
   <script>
     Polymer({
-      is: 'my-view1'
+      is: 'my-view1',
+
+      handleTapForToast: function() {
+        this.fire('iron-signal', {name: 'toast', data: 'Message from other DOM', sender: 'The other DOM'})
+      }
     });
   </script>
 </dom-module>

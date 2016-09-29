@@ -20,6 +20,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/iron-signals/iron-signals.html">
+
+
 <link rel="import" href="my-icons.html">
 
 <dom-module id="my-app">
@@ -70,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout fullbleed>
+    <app-drawer-layout fullbleed force-narrow>
       <!-- Drawer content -->
       <app-drawer>
         <app-toolbar>Menu</app-toolbar>
@@ -87,7 +92,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App</div>
+            <div main-title>MENU</div>
+            <!--BUTTON TO TRIGGER TOAST-->
+            <paper-button raised on-tap="handleMainToast2" data-args="Message from the main DOM, blabla2">Default toast</paper-button>
           </app-toolbar>
         </app-header>
 
@@ -103,6 +110,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
+
+    <paper-toast id="toast0" text="This toast auto-closes after 3 seconds"></paper-toast>
+    <!-- SIGNAL HANDLER FOR TOAST -->
+    <iron-signals on-iron-signal-toast="handleMainToast"></iron-signals>
   </template>
 
   <script>
@@ -120,6 +131,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       observers: [
         '_routePageChanged(routeData.page)'
       ],
+
+      handleMainToast: function(e) {
+        this.$.toast0.show('MSG: ' + e.detail);
+      },
+      handleMainToast2: function(e) {
+        var args = e.target.dataset.args.split(',');
+        this.$.toast0.show('MSG: ' + args[0]);
+      },
+
 
       _routePageChanged: function(page) {
         this.page = page || 'view1';
