@@ -1,4 +1,13 @@
+### Bower ###
+src/main/resources/static/bower_components/
+
+### NPM ###
+src/main/resources/static/node_modules/
+
+### OUT DIR ###
 target/
+
+### MVN WRAPPER ###
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

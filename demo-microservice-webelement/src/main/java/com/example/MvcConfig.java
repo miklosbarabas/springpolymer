@@ -13,19 +13,15 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 @Configuration
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
+
+    private static final String[] RESOURCE_LOCATIONS = { "/static/", "classpath:/static/" };
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry
 				.addResourceHandler("/**")
-				.addResourceLocations("/resources/static/","classpath:/static/")
+				.addResourceLocations(RESOURCE_LOCATIONS)
 		//		.setCachePeriod(3600)
-				.resourceChain(true)
-				.addResolver(new PathResourceResolver());
-
-		registry
-				.addResourceHandler("/bower_components/**")
-				.addResourceLocations("/resources/static/bower_components/","classpath:/static/bower_components/")
-				//		.setCachePeriod(3600)
 				.resourceChain(true)
 				.addResolver(new PathResourceResolver());
 
