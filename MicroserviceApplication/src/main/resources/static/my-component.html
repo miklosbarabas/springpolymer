@@ -1,0 +1,26 @@
+<dom-module id="my-component">
+  <template>
+    <style >
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+
+    <paper-button on-tap="handleTapForToast">OPEN BUTTON FROM MY EXTERNAL COMPONENT</paper-button>
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-component',
+
+      handleTapForToast: function() {
+        this.fire('iron-signal', {name: 'toast', data: 'Message from other DOM', sender: 'The other DOM'})
+      }
+    });
+  </script>
+</dom-module>
