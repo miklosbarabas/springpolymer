@@ -1,15 +1,27 @@
+### Bower ###
+**/static/bower_components/
+
+### NPM ###
+**/static/node_modules/
+
+### OUT DIR ###
+**/target/
+
+### MVN WRAPPER ###
+**/!.mvn/wrapper/maven-wrapper.jar
+
 ### STS ###
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings
+**/.springBeans
 
 ### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+**/*.idea
+**/*.iws
+**/*.iml
+**/*.ipr
 
 ### NetBeans ###
 nbproject/private/
@@ -18,4 +30,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-
