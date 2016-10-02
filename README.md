@@ -9,8 +9,9 @@ HTTP/2 needs ALPN lib loaded to the JVM when starting the app<br>
 
 The automatic Update Resources functionality only works if the web resources are in the <projectdir>/static directory.
 If multiple instances of spring-boot app are running at the same time, this functionality will only work for the 1st one.
+
 Ways to mitigate this issue:<br>
--File Settings Compiler -> Make project automatically (only works while not running/debugging)<br>
+-File > Settings > Compiler -> Make project automatically (only works while not running/debugging)<br>
 -Bind CTRL + S to Make project (as IntelliJ IDEA by default saves all changes automatically)<br>
 
 If you are using _spring-boot-devtools_, livereload also only gets triggered if you Make the project
