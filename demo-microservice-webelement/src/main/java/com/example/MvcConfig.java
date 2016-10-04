@@ -27,13 +27,14 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
 	}
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-				.allowedOrigins("http://localhost:8080")
-				.allowedMethods("GET", "PUT", "DELETE")
-				.allowedHeaders("header1", "header2", "header3")
-				.exposedHeaders("header1", "header2")
-				.allowCredentials(false).maxAge(3600);
-	}
+	/* THIS IS UNNECESSARY, IF USING ZUUL PROXY */
+//	@Override
+//	public void addCorsMappings(CorsRegistry registry) {
+//		registry.addMapping("/**")
+//				.allowedOrigins("http://localhost:8080")
+//				.allowedMethods("GET", "PUT", "DELETE")
+//				.allowedHeaders("header1", "header2", "header3")
+//				.exposedHeaders("header1", "header2")
+//				.allowCredentials(false).maxAge(3600);
+//	}
 }

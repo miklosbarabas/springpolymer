@@ -18,14 +18,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
 
         padding: 10px;
+
+      }
+
+      .flex-horizontal {
+        @apply(--layout-horizontal);
+      }
+      .flexchild {
+        @apply(--layout-flex);
+      }
+      .flex-equal-around-justified {
+        @apply(--layout-horizontal);
+        @apply(--layout-around-justified);
+      }
+      .flex-equal-justified {
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
       }
     </style>
 
-    <div class="card">
-      <div class="circle">2</div>
-      <h1>View Two</h1>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-      <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+    <!--<div class="card">-->
+      <!--<div class="circle">2</div>-->
+      <!--<h1>View Two</h1>-->
+      <!--<p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>-->
+      <!--<p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>-->
+    <!--</div>-->
+
+    <div class="container flex-equal-around-justified">
+      <div>
+        one
+          <div class="card">
+          <div class="circle">2</div>
+          <h1>View Two</h1>
+          <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
+          <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+          </div>
+      </div>
+      <div>
+        two
+        <div class="card">
+          <div class="circle">2</div>
+          <h1>View Two</h1>
+          <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
+          <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+          </div>
+      </div>
     </div>
   </template>
 
