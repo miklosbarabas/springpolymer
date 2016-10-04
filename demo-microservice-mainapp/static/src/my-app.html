@@ -23,137 +23,205 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/iron-signals/iron-signals.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu-light.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 
 <link rel="import" href="my-icons.html">
 
 <dom-module id="my-app">
-  <template>
-    <style>
-      :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
+    <template>
+        <style>
+            :host {
+                --app-primary-color: #4285f4;
+                --app-secondary-color: black;
 
-        display: block;
-      }
+                display: block;
+            }
 
-      app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
-      }
-      app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
-      }
+            app-header {
+                color: #fff;
+                background-color: var(--app-primary-color);
+            }
+            app-header paper-icon-button {
+                --paper-icon-button-ink-color: white;
+            }
 
-      .drawer-list {
-        margin: 0 20px;
-      }
+            .drawer-list {
+                margin: 0 0px;
+            }
 
-      .drawer-list a {
-        display: block;
+            .drawer-list a {
+                display: block;
 
-        padding: 0 16px;
+                padding: 0 16px;
 
-        text-decoration: none;
+                text-decoration: none;
 
-        color: var(--app-secondary-color);
+                color: var(--app-secondary-color);
 
-        line-height: 40px;
-      }
+                line-height: 40px;
+            }
 
-      .drawer-list a.iron-selected {
-        color: black;
+            .drawer-list a.iron-selected {
+                color: black;
 
-        font-weight: bold;
-      }
-    </style>
+                font-weight: bold;
+            }
+        </style>
 
-    <app-location route="{{route}}"></app-location>
-    <app-route
-        route="{{route}}"
-        pattern="/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+        <iron-ajax auto url="/configuration/menu/73" handle-as="json" last-response="{{data}}" auto></iron-ajax>
 
-    <app-drawer-layout fullbleed force-narrow>
-      <!-- Drawer content -->
-      <app-drawer>
-        <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="/view1">View One</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
-        </iron-selector>
-      </app-drawer>
+        <app-location route="{{route}}"></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
 
-      <!-- Main content -->
-      <app-header-layout has-scrolling-region>
+        <app-drawer-layout fullbleed force-narrow>
+            <!-- Drawer content -->
+            <app-drawer>
+                <app-toolbar>Menu</app-toolbar>
 
-        <app-header condenses reveals effects="waterfall">
-          <app-toolbar>
-            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-            <div main-title>MENU</div>
-            <!--BUTTON TO TRIGGER TOAST-->
-            <paper-button raised on-tap="handleMainToast2" data-args="Message from the main DOM, blabla2">Default toast</paper-button>
-          </app-toolbar>
-        </app-header>
+                <!--PAPER MENU-->
+                <div class="horizontal-section">
+                    <paper-menu>
+                        <paper-submenu>
+                            <paper-item class="menu-trigger">Views</paper-item>
+                            <paper-menu class="menu-content" tabindex="1">
+                                <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+                                    <a name="view1" href="/view1">
+                                        <paper-item raised>
+                                            View One
+                                        </paper-item>
+                                    </a>
+                                    <a name="view2" href="/view2">
+                                        <paper-item raised>
+                                            View Two
+                                        </paper-item>
+                                    </a>
+                                    <a name="view3" href="/view3">
+                                        <paper-item raised>
+                                            View Three
+                                        </paper-item>
+                                    </a>
+                                </iron-selector>
+                            </paper-menu>
+                        </paper-submenu>
+                        <paper-submenu>
+                            <paper-item class="menu-trigger">Parent</paper-item>
+                            <paper-menu class="menu-content" tabindex="1" attr-for-item-title="label">
+                                <paper-submenu label="paper-menu-label sublist">
+                                    <paper-item class="menu-trigger" active>{{data.current.name}}</paper-item>
+                                    <paper-menu class="menu-content" tabindex="2">
+                                        <template is="dom-repeat" items="{{data.parent}}">
+                                            <paper-item id="{{item.id}}">{{item.name}}</paper-item>
+                                        </template>
+                                    </paper-menu>
+                                </paper-submenu>
+                            </paper-menu>
+                        </paper-submenu>
+                        <paper-submenu opened="true">
+                            <paper-item class="menu-trigger iron-selected" >Current</paper-item>
+                            <paper-menu class="menu-content" tabindex="1" attr-for-item-title="label" >
+                                <paper-submenu label="paper-menu-label" opened="true" aria-selected="true">
+                                    <paper-item class="menu-trigger iron-selected">{{data.current.name}}</paper-item>
+                                    <paper-menu class="menu-content" tabindex="2">
+                                        <template is="dom-repeat" items="{{data.children}}">
+                                            <paper-item id="{{item.id}}">{{item.name}}</paper-item>
+                                        </template>
+                                    </paper-menu>
+                                </paper-submenu>
+                            </paper-menu>
+                        </paper-submenu>
+                        <paper-submenu disabled>
+                            <paper-item class="menu-trigger">Unavailable</paper-item>
+                            <paper-menu class="menu-content" tabindex="1">
+                                <paper-item>Disabled 1</paper-item>
+                                <paper-item>Disabled 2</paper-item>
+                            </paper-menu>
+                        </paper-submenu>
+                    </paper-menu>
+                </div>
+                <!--PAPER MENU-->
+            </app-drawer>
 
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="view404"
-            role="main">
-          <my-view1 name="view1"></my-view1>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
-          <my-view404 name="view404"></my-view404>
-        </iron-pages>
-      </app-header-layout>
-    </app-drawer-layout>
+            <!-- Main content -->
+            <app-header-layout has-scrolling-region>
 
-    <paper-toast id="toast0" text="This toast auto-closes after 3 seconds"></paper-toast>
-    <!-- SIGNAL HANDLER FOR TOAST -->
-    <iron-signals on-iron-signal-toast="handleMainToast"></iron-signals>
-  </template>
+                <app-header condenses reveals effects="waterfall">
+                    <app-toolbar>
+                        <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                        <div main-title>MENU</div>
+                        <!--BUTTON TO TRIGGER TOAST-->
+                        <paper-button raised on-tap="handleMainToast2" data-args="Message from the main DOM, blabla2">Default toast</paper-button>
+                    </app-toolbar>
+                </app-header>
 
-  <script>
-    Polymer({
-      is: 'my-app',
+                <iron-pages
+                        selected="[[page]]"
+                        attr-for-selected="name"
+                        fallback-selection="view404"
+                        role="main">
+                    <my-view1 name="view1"></my-view1>
+                    <my-view2 name="view2"></my-view2>
+                    <my-view3 name="view3"></my-view3>
+                    <my-view404 name="view404"></my-view404>
+                </iron-pages>
+            </app-header-layout>
+        </app-drawer-layout>
 
-      properties: {
-        page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged'
-        }
-      },
+        <paper-toast id="toast0" text="This toast auto-closes after 3 seconds"></paper-toast>
+        <!-- SIGNAL HANDLER FOR TOAST -->
+        <iron-signals on-iron-signal-toast="handleMainToast"></iron-signals>
+    </template>
 
-      observers: [
-        '_routePageChanged(routeData.page)'
-      ],
+    <script>
+        Polymer({
+            is: 'my-app',
 
-      handleMainToast: function(e) {
-        this.$.toast0.show('MSG: ' + e.detail);
-      },
-      handleMainToast2: function(e) {
-        var args = e.target.dataset.args.split(',');
-        this.$.toast0.show('MSG: ' + args[0]);
-      },
+            properties: {
+                page: {
+                    type: String,
+                    reflectToAttribute: true,
+                    observer: '_pageChanged'
+                }
+            },
+
+            observers: [
+                '_routePageChanged(routeData.page)'
+            ],
+
+            handleMainToast: function(e) {
+                this.$.toast0.show('MSG: ' + e.detail);
+            },
+            handleMainToast2: function(e) {
+                var args = e.target.dataset.args.split(',');
+                this.$.toast0.show('MSG: ' + args[0]);
+            },
 
 
-      _routePageChanged: function(page) {
-        this.page = page || 'view1';
-      },
+            _routePageChanged: function(page) {
+                this.page = page || 'view1';
+            },
 
-      _pageChanged: function(page) {
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
-      },
+            _pageChanged: function(page) {
+                // Load page import on demand. Show 404 page if fails
+                var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+                this.importHref(resolvedPageUrl, null, this._showPage404, true);
+            },
 
-      _showPage404: function() {
-        this.page = 'view404';
-      }
-    });
-  </script>
+            _showPage404: function() {
+                this.page = 'view404';
+            }
+        });
+    </script>
 </dom-module>
