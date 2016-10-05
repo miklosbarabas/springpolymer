@@ -75,6 +75,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 font-weight: bold;
             }
+
+            .sublist paper-item {
+                padding-left: 30px;
+            }
+            .sublist2 paper-item {
+                padding-left: 50px;
+            }
         </style>
 
         <iron-ajax auto url="/configuration/menu/73" handle-as="json" last-response="{{data}}" auto></iron-ajax>
@@ -118,10 +125,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         </paper-submenu>
                         <paper-submenu>
                             <paper-item class="menu-trigger">Parent</paper-item>
-                            <paper-menu class="menu-content" tabindex="1" attr-for-item-title="label">
-                                <paper-submenu label="paper-menu-label sublist">
+                            <paper-menu class="menu-content sublist" tabindex="1" attr-for-item-title="label">
+                                <paper-submenu>
                                     <paper-item class="menu-trigger" active>{{data.current.name}}</paper-item>
-                                    <paper-menu class="menu-content" tabindex="2">
+                                    <paper-menu class="menu-content sublist2" tabindex="2">
                                         <template is="dom-repeat" items="{{data.parent}}">
                                             <paper-item id="{{item.id}}">{{item.name}}</paper-item>
                                         </template>
@@ -129,14 +136,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                                 </paper-submenu>
                             </paper-menu>
                         </paper-submenu>
-                        <paper-submenu opened="true">
-                            <paper-item class="menu-trigger iron-selected" >Current</paper-item>
-                            <paper-menu class="menu-content" tabindex="1" attr-for-item-title="label" >
-                                <paper-submenu label="paper-menu-label" opened="true" aria-selected="true">
-                                    <paper-item class="menu-trigger iron-selected">{{data.current.name}}</paper-item>
-                                    <paper-menu class="menu-content" tabindex="2">
+                        <paper-submenu tabindex="1">
+                            <paper-item class="menu-trigger">Current</paper-item>
+                            <paper-menu class="menu-content sublist" tabindex="1" attr-for-item-title="label" selected="0">
+                                <paper-submenu>
+                                    <paper-item class="menu-trigger">{{data.current.name}}</paper-item>
+                                    <paper-menu class="menu-content sublist2" tabindex="2" selected="0">
                                         <template is="dom-repeat" items="{{data.children}}">
-                                            <paper-item id="{{item.id}}">{{item.name}}</paper-item>
+                                            <paper-item id="{{item.id}}" tabindex="2">{{item.name}}</paper-item>
                                         </template>
                                     </paper-menu>
                                 </paper-submenu>
