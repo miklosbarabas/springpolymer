@@ -3,13 +3,13 @@ node {
   checkout scm
   env.PATH = "${tool 'Maven3'}/bin:${env.PATH}"
   stage('Package') {
-    dir('.') {
+    dir('demo-microservice-mainapp') {
       sh 'mvn clean package -DskipTests'
     }
   }
 
   stage('Create Docker Image') {
-    dir('.') {
+    dir('demo-microservice-mainapp') {
       docker.build("springpolymer/docker-mainapp:${env.BUILD_NUMBER}")
     }
   }
@@ -34,7 +34,7 @@ node {
 
   stage('Run Tests') {
     try {
-      dir('.') {
+      dir('demo-microservice-mainapp') {
         sh "mvn test"
         docker.build("springpolymer/docker-mainapp:${env.BUILD_NUMBER}").push()
       }
