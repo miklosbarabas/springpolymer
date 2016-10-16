@@ -17,7 +17,6 @@ node {
   stage ('Run Application') {
     try {
       // Run application using Docker image
-      sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
       sh "docker run -e DB_URI=$DB springpolymer/docker-webelement:${env.BUILD_NUMBER}"
 
       // Run tests using Maven
@@ -36,7 +35,8 @@ node {
     try {
       dir('demo-microservice-webelement') {
         sh "mvn test"
-        docker.build("springpolymer/docker-webelement:${env.BUILD_NUMBER}").push()
+        // Push to Docker Registry
+        //docker.build("springpolymer/docker-webelement:${env.BUILD_NUMBER}").push()
       }
     } catch (error) {
 
