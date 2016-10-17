@@ -1,0 +1,122 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-menu">
+    <template id="menu-template">
+        <style>
+            .sublist {
+                padding-left: 30px;
+            }
+        </style>
+
+        <iron-ajax url="{{url}}" last-response="{{data}}" auto></iron-ajax>
+
+        <paper-menu>
+            <paper-submenu>
+                <paper-item class="menu-trigger">Views</paper-item>
+                <paper-menu class="menu-content" tabindex="1">
+                    <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+                        <a name="view1" href="/view1">
+                            <paper-item raised>
+                                View One
+                            </paper-item>
+                        </a>
+                        <a name="view2" href="/view2">
+                            <paper-item raised>
+                                View Two
+                            </paper-item>
+                        </a>
+                        <a name="view3" href="/view3">
+                            <paper-item raised>
+                                View Three
+                            </paper-item>
+                        </a>
+                    </iron-selector>
+                </paper-menu>
+            </paper-submenu>
+            <paper-submenu>
+                <paper-item class="menu-trigger">Parent</paper-item>
+                <paper-menu class="menu-content sublist" tabindex="1" attr-for-item-title="label">
+                    <paper-submenu>
+                        <paper-item class="menu-trigger" active>{{data.current.name}}</paper-item>
+                        <paper-menu class="menu-content sublist2" tabindex="2">
+                            <template is="dom-repeat" items="{{data.parent}}">
+                                <paper-item id="{{item.id}}">{{item.name}}</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-submenu>
+                </paper-menu>
+            </paper-submenu>
+            <paper-submenu tabindex="1">
+                <paper-item class="menu-trigger">Current</paper-item>
+                <paper-menu class="menu-content sublist" tabindex="1" attr-for-item-title="label" selected="0">
+                    <paper-submenu>
+                        <paper-item class="menu-trigger">{{data.current.name}}</paper-item>
+                        <paper-menu class="menu-content sublist2" tabindex="2" selected="0">
+                            <template is="dom-repeat" items="{{data.children}}">
+                                <paper-item id="{{item.id}}" tabindex="2">{{item.name}}</paper-item>
+                            </template>
+                        </paper-menu>
+                    </paper-submenu>
+                </paper-menu>
+            </paper-submenu>
+            <paper-submenu disabled>
+                <paper-item class="menu-trigger">Unavailable</paper-item>
+                <paper-menu class="menu-content" tabindex="1">
+                    <paper-item>Disabled 1</paper-item>
+                    <paper-item>Disabled 2</paper-item>
+                </paper-menu>
+            </paper-submenu>
+        </paper-menu>
+    </template>
+    <script>
+        Polymer({
+            is: 'my-menu',
+            properties: {
+                url: {
+                    type: String,
+                    value: "/configuration/menu/1"
+                },
+                selectedId: {
+                    type: Number,
+                    value: 1
+                },
+                lastEventTime: {
+                    type: Number,
+                    value: 0
+                }
+            },
+            selectItem: function (e, item) {
+                var id = item.item.id;
+                var link = "" + item.item.link;
+                if ((e.timeStamp - this.lastEventTime) < 500 || link == "undefined") {
+                    console.log("Ignoring select, assuming it's a framework event id: " + id);
+                } else if (item.item.nodeName != "PAPER-SUBMENU" && this.selectedId != id) {
+                    this.lastEventTime = e.timeStamp;
+                    console.log("Selected " + item.item.outerText + " switching to " + link);
+                    if (link.startsWith("/open-event/")) {
+                        this.fire('iron-signal', {name: 'toast', data: 'Opening event : ' + id, sender: 'sba-menu'});
+                        this.fire('iron-signal', {name: 'open-event-request', data: link});
+
+                    } else if (link != "undefined") {
+                        this.url = link;
+                        this.selectedId = id;
+                    }
+                }
+            },
+            getSelectedIndex: function (data) {
+                var selectedIndex = 0;
+                if (data.parent && data.parent.length > 0) {
+                    selectedIndex = data.parent.length;
+                }
+                console.log("Setting selected index to " + selectedIndex);
+                return selectedIndex;
+            }
+        });
+    </script>
+</dom-module>

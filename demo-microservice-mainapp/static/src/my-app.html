@@ -1,13 +1,3 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
@@ -32,6 +22,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu-light.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="my-menu.html">
+
 
 
 <link rel="import" href="my-icons.html">
@@ -84,7 +76,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         </style>
 
-        <iron-ajax auto url="/configuration/menu/73" handle-as="json" last-response="{{data}}" auto></iron-ajax>
+        <iron-ajax auto url="{{menuUrl}}" handle-as="json" last-response="{{data}}" auto></iron-ajax>
 
         <app-location route="{{route}}"></app-location>
         <app-route
@@ -95,68 +87,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <app-drawer-layout fullbleed force-narrow>
             <!-- Drawer content -->
-            <app-drawer>
+            <app-drawer id="appDrawer">
                 <app-toolbar>Menu</app-toolbar>
 
                 <!--PAPER MENU-->
                 <div class="horizontal-section">
-                    <paper-menu>
-                        <paper-submenu>
-                            <paper-item class="menu-trigger">Views</paper-item>
-                            <paper-menu class="menu-content" tabindex="1">
-                                <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-                                    <a name="view1" href="/view1">
-                                        <paper-item raised>
-                                            View One
-                                        </paper-item>
-                                    </a>
-                                    <a name="view2" href="/view2">
-                                        <paper-item raised>
-                                            View Two
-                                        </paper-item>
-                                    </a>
-                                    <a name="view3" href="/view3">
-                                        <paper-item raised>
-                                            View Three
-                                        </paper-item>
-                                    </a>
-                                </iron-selector>
-                            </paper-menu>
-                        </paper-submenu>
-                        <paper-submenu>
-                            <paper-item class="menu-trigger">Parent</paper-item>
-                            <paper-menu class="menu-content sublist" tabindex="1" attr-for-item-title="label">
-                                <paper-submenu>
-                                    <paper-item class="menu-trigger" active>{{data.current.name}}</paper-item>
-                                    <paper-menu class="menu-content sublist2" tabindex="2">
-                                        <template is="dom-repeat" items="{{data.parent}}">
-                                            <paper-item id="{{item.id}}">{{item.name}}</paper-item>
-                                        </template>
-                                    </paper-menu>
-                                </paper-submenu>
-                            </paper-menu>
-                        </paper-submenu>
-                        <paper-submenu tabindex="1">
-                            <paper-item class="menu-trigger">Current</paper-item>
-                            <paper-menu class="menu-content sublist" tabindex="1" attr-for-item-title="label" selected="0">
-                                <paper-submenu>
-                                    <paper-item class="menu-trigger">{{data.current.name}}</paper-item>
-                                    <paper-menu class="menu-content sublist2" tabindex="2" selected="0">
-                                        <template is="dom-repeat" items="{{data.children}}">
-                                            <paper-item id="{{item.id}}" tabindex="2">{{item.name}}</paper-item>
-                                        </template>
-                                    </paper-menu>
-                                </paper-submenu>
-                            </paper-menu>
-                        </paper-submenu>
-                        <paper-submenu disabled>
-                            <paper-item class="menu-trigger">Unavailable</paper-item>
-                            <paper-menu class="menu-content" tabindex="1">
-                                <paper-item>Disabled 1</paper-item>
-                                <paper-item>Disabled 2</paper-item>
-                            </paper-menu>
-                        </paper-submenu>
-                    </paper-menu>
+                        <my-menu></my-menu>
                 </div>
                 <!--PAPER MENU-->
             </app-drawer>
@@ -189,6 +125,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-toast id="toast0" text="This toast auto-closes after 3 seconds"></paper-toast>
         <!-- SIGNAL HANDLER FOR TOAST -->
         <iron-signals on-iron-signal-toast="handleMainToast"></iron-signals>
+        <iron-signals on-iron-signal-open-event-request="handleOpenEventRequest"></iron-signals>
+
     </template>
 
     <script>
@@ -200,6 +138,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     type: String,
                     reflectToAttribute: true,
                     observer: '_pageChanged'
+                },
+                menuUrl: {
+                    type: String,
+                    reflectToAttribute: true,
+                    value: '/configuration/menu/73'
                 }
             },
 
@@ -228,6 +171,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             _showPage404: function() {
                 this.page = 'view404';
+            },
+            handleOpenEventRequest: function () {
+                this.$.appDrawer.closeDrawer();
             }
         });
     </script>
